@@ -16,13 +16,13 @@ public abstract class BlazorSchoolBroadcasterBase : IAsyncDisposable
         _jsRuntime = jsRuntime;
     }
 
-    public async void SendMessageAsync<T>(T message)
+    public async Task SendMessageAsync<T>(T message)
     {
         await WaitForReference();
         await _blazorSchoolBroadcastJsRef.Value.InvokeVoidAsync("postMessage", ChannelName, message);
     }
 
-    public async void ListenChannelAsync()
+    public async Task ListenChannelAsync()
     {
         await WaitForReference();
         var wrappedInstance = DotNetObjectReference.Create(this);
@@ -30,7 +30,10 @@ public abstract class BlazorSchoolBroadcasterBase : IAsyncDisposable
     }
 
     [JSInvokable]
-    public virtual void Notify(JsonElement jsonData) => OnMessageReceived?.Invoke(this, new(jsonData));
+    public void Notify(JsonElement jsonData)
+    {
+        OnMessageReceived?.Invoke(this, new(jsonData));
+    }
 
     protected async Task WaitForReference()
     {

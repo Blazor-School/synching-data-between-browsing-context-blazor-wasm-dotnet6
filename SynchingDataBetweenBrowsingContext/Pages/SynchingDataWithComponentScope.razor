@@ -1,0 +1,67 @@
+﻿@page "/synching-data-with-component-scope"
+@using SynchingDataBetweenBrowsingContext.Utils
+@using SynchingDataBetweenBrowsingContext.Utils.ComponentBroadcaster
+@inject BlazorSchoolComponentBroadcaster1 BlazorSchoolComponentBroadcaster1
+@inject BlazorSchoolComponentBroadcaster2 BlazorSchoolComponentBroadcaster2
+@implements IDisposable
+
+<h3>SynchingDataWithComponentScope</h3>
+<form>
+    <label class="form-label">
+        Enter your name:
+        <input class="form-control" type="text" @bind-value="ExampleString" />
+    </label>
+    <button type="button" class="btn btn-primary" @onclick="SendDataBroadcaster1Async">Sync other tabs</button>
+</form>
+
+<form>
+    <label class="form-label">
+        Select your gender:
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="gender" value="true" checked="@(IsMale)" @onchange='SendDataBroadcaster2Async'> Male
+        </label>
+        <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="gender" value="false" checked="@(IsMale == false)" @onchange='SendDataBroadcaster2Async'/> Female
+        </label>
+    </label>
+</form>
+
+@code {
+    public string ExampleString { get; set; } = "Blazor School";
+    public bool IsMale { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BlazorSchoolComponentBroadcaster1.OnMessageReceived += OnBroadcaster1Notify;
+        BlazorSchoolComponentBroadcaster2.OnMessageReceived += OnBroadcaster2Notify;
+        await BlazorSchoolComponentBroadcaster1.ListenChannelAsync();
+        await BlazorSchoolComponentBroadcaster2.ListenChannelAsync();
+    }
+
+    private async Task SendDataBroadcaster1Async()
+    {
+        await BlazorSchoolComponentBroadcaster1.SendMessageAsync<string>(ExampleString);
+    }
+    private void OnBroadcaster1Notify(object? sender, BroadcastData broadcastData)
+    {
+        ExampleString = broadcastData.GetData<string>() ?? "";
+        StateHasChanged();
+    }
+
+    private async Task SendDataBroadcaster2Async(ChangeEventArgs eventArgs)
+    {
+        await BlazorSchoolComponentBroadcaster2.SendMessageAsync<bool>(Convert.ToBoolean(eventArgs.Value));
+    }
+        
+    private void OnBroadcaster2Notify(object? sender, BroadcastData broadcastData)
+    {
+        IsMale = broadcastData.GetData<bool>();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        BlazorSchoolComponentBroadcaster1.OnMessageReceived -= OnBroadcaster1Notify;
+        BlazorSchoolComponentBroadcaster2.OnMessageReceived -= OnBroadcaster2Notify;
+    }
+}

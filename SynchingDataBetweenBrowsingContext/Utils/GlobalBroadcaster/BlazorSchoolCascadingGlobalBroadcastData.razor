@@ -7,7 +7,7 @@
     private BroadcastData _currentData = default!;
 
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = _ => { };
 
     protected override void OnInitialized()
     {

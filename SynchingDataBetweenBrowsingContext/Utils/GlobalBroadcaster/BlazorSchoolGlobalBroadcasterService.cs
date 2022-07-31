@@ -10,7 +10,4 @@ public class BlazorSchoolGlobalBroadcasterService : BlazorSchoolBroadcasterBase,
     public BlazorSchoolGlobalBroadcasterService(IJSRuntime jsRuntime) : base(jsRuntime)
     {
     }
-
-    [JSInvokable]
-    public override void Notify(JsonElement jsonData) => base.Notify(jsonData);
 }
