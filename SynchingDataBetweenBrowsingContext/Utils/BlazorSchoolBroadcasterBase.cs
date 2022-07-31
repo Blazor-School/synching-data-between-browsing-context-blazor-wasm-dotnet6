@@ -3,20 +3,20 @@ using System.Text.Json;
 
 namespace SynchingDataBetweenBrowsingContext.Utils;
 
-public abstract class BlazorSchoolBroadcasterBase : IAsyncDisposable
+public abstract class BlazorSchoolBroadcasterBase<T> : IAsyncDisposable
 {
     private readonly IJSRuntime _jsRuntime;
     private Lazy<IJSObjectReference> _blazorSchoolBroadcastJsRef = new();
 
     public abstract string ChannelName { get; }
-    public event EventHandler<BroadcastData> OnMessageReceived = (sender, args) => { };
+    public event EventHandler<BroadcastData<T>> OnMessageReceived = (sender, args) => { };
 
     public BlazorSchoolBroadcasterBase(IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
     }
 
-    public async Task SendMessageAsync<T>(T message)
+    public async Task SendMessageAsync(T message)
     {
         await WaitForReference();
         await _blazorSchoolBroadcastJsRef.Value.InvokeVoidAsync("postMessage", ChannelName, message);

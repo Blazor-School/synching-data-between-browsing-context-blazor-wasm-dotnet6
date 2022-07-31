@@ -2,9 +2,9 @@
 
 namespace SynchingDataBetweenBrowsingContext.Utils;
 
-public record BroadcastData(JsonElement Data)
+public record BroadcastData<T>(JsonElement Data)
 {
-    public T? GetData<T>()
+    public T? GetData()
     {
         try
         {

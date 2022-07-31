@@ -2,7 +2,7 @@
 
 namespace SynchingDataBetweenBrowsingContext.Utils.ComponentBroadcaster;
 
-public class BlazorSchoolComponentBroadcaster1 : BlazorSchoolBroadcasterBase
+public class BlazorSchoolComponentBroadcaster1 : BlazorSchoolBroadcasterBase<string>
 {
     public BlazorSchoolComponentBroadcaster1(IJSRuntime jsRuntime) : base(jsRuntime)
     {

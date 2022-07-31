@@ -40,22 +40,22 @@
 
     private async Task SendDataBroadcaster1Async()
     {
-        await BlazorSchoolComponentBroadcaster1.SendMessageAsync<string>(ExampleString);
+        await BlazorSchoolComponentBroadcaster1.SendMessageAsync(ExampleString);
     }
-    private void OnBroadcaster1Notify(object? sender, BroadcastData broadcastData)
+    private void OnBroadcaster1Notify(object? sender, BroadcastData<string> broadcastData)
     {
-        ExampleString = broadcastData.GetData<string>() ?? "";
+        ExampleString = broadcastData.GetData() ?? "";
         StateHasChanged();
     }
 
     private async Task SendDataBroadcaster2Async(ChangeEventArgs eventArgs)
     {
-        await BlazorSchoolComponentBroadcaster2.SendMessageAsync<bool>(Convert.ToBoolean(eventArgs.Value));
+        await BlazorSchoolComponentBroadcaster2.SendMessageAsync(Convert.ToBoolean(eventArgs.Value));
     }
         
-    private void OnBroadcaster2Notify(object? sender, BroadcastData broadcastData)
+    private void OnBroadcaster2Notify(object? sender, BroadcastData<bool> broadcastData)
     {
-        IsMale = broadcastData.GetData<bool>();
+        IsMale = broadcastData.GetData();
         StateHasChanged();
     }
 

@@ -1,11 +1,6 @@
 ﻿@page "/synching-data"
-@using SynchingDataBetweenBrowsingContext.Utils
-@using SynchingDataBetweenBrowsingContext.Utils.GlobalBroadcaster
-@inject BlazorSchoolBroadcaster BlazorSchoolBroadcaster
-@inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
-@implements IDisposable
 
-<BlazorSchoolGlobalBroadcaster Context="CurrentData">
+@*<BlazorSchoolGlobalBroadcaster Context="CurrentData">
     <h3>SynchingData</h3>
     <button type="button" @onclick='_ => BlazorSchoolBroadcaster.SendMessageAsync<string>("test")'>Test</button>
     <button type="button" @onclick='_ => BlazorSchoolGlobalBroadcasterService.SendMessageAsync<string>("test2222")'>Global</button>
@@ -29,4 +24,4 @@
     }
 
     public void Dispose() => BlazorSchoolBroadcaster.OnMessageReceived -= OnNotify;
-}
+}*@

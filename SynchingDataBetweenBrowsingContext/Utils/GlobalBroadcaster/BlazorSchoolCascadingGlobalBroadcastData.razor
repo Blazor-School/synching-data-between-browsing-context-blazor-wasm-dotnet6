@@ -1,21 +1,22 @@
-﻿@implements IDisposable
+﻿@using SynchingDataBetweenBrowsingContext.Models
+@implements IDisposable
 @inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
 
-<CascadingValue TValue="BroadcastData" Value="_currentData" ChildContent="ChildContent" Name="BlazorSchoolCascadingGlobalBroadcastData" />
+<CascadingValue TValue="BroadcastData<ExampleClass>" Value="_currentData" ChildContent="ChildContent" Name="BlazorSchoolCascadingGlobalBroadcastData" />
 
 @code {
-    private BroadcastData _currentData = default!;
+    private BroadcastData<ExampleClass> _currentData = default!;
 
     [Parameter]
     public RenderFragment ChildContent { get; set; } = _ => { };
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         BlazorSchoolGlobalBroadcasterService.OnMessageReceived += OnGlobalBroadcasterNotify;
-        BlazorSchoolGlobalBroadcasterService.ListenChannelAsync();
+        await BlazorSchoolGlobalBroadcasterService.ListenChannelAsync();
     }
 
-    public void OnGlobalBroadcasterNotify(object? sender, BroadcastData broadcastData)
+    public void OnGlobalBroadcasterNotify(object? sender, BroadcastData<ExampleClass> broadcastData)
     {
         _currentData = broadcastData;
         StateHasChanged();

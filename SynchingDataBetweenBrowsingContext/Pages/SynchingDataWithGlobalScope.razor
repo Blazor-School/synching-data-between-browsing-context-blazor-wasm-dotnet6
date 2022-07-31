@@ -1,0 +1,62 @@
+﻿@page "/synching-data-with-global-scope"
+@using SynchingDataBetweenBrowsingContext.Models
+@using SynchingDataBetweenBrowsingContext.Utils
+@using SynchingDataBetweenBrowsingContext.Utils.GlobalBroadcaster
+@inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
+@implements IDisposable
+
+<h3>SynchingDataWithGlobalScope</h3>
+<EditForm class="d-flex flex-column w-25" Model="FormModel">
+    @if (FormModel.LoggedIn)
+    {
+        <label class="form-label">
+            Enter your name:
+            <InputText class="form-control" @bind-Value="FormModel.Username" />
+        </label>
+        <div class="d-flex flex-column">
+            <button class="btn btn-primary" type="button" @onclick="SaveChangesAsync">Save changes</button>
+            <button class="btn btn-primary" type="button" @onclick="LogoutAsync">Log out</button>
+        </div>
+    }
+    else
+    {
+        <button class="btn btn-danger" type="button" @onclick="LoginAsync">Log in</button>
+    }
+</EditForm>
+
+@code {
+    public ExampleClass FormModel { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        BlazorSchoolGlobalBroadcasterService.OnMessageReceived += OnGlobalBroadcasterUpdate;
+    }
+
+    private void OnGlobalBroadcasterUpdate(object? sender, BroadcastData<ExampleClass> broadcastData)
+    {
+        FormModel = broadcastData.GetData() ?? new();
+        StateHasChanged();
+    }
+
+    private async Task SaveChangesAsync()
+    {
+        await BlazorSchoolGlobalBroadcasterService.SendMessageAsync(FormModel);
+    }
+
+    private async Task LoginAsync()
+    {
+        FormModel.LoggedIn = true;
+        await SaveChangesAsync();
+    }
+
+    private async Task LogoutAsync()
+    {
+        FormModel = new();
+        await SaveChangesAsync();
+    }
+
+    public void Dispose()
+    {
+        BlazorSchoolGlobalBroadcasterService.OnMessageReceived -= OnGlobalBroadcasterUpdate;
+    }
+}
