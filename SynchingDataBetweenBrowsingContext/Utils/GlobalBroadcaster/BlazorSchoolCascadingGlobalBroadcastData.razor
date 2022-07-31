@@ -1,0 +1,28 @@
+﻿@implements IDisposable
+@inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
+
+<CascadingValue TValue="BroadcastData" Value="_currentData" ChildContent="ChildContent" Name="BlazorSchoolCascadingGlobalBroadcastData" />
+
+@code {
+    private BroadcastData _currentData = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        BlazorSchoolGlobalBroadcasterService.OnMessageReceived += OnGlobalBroadcasterNotify;
+        BlazorSchoolGlobalBroadcasterService.ListenChannelAsync();
+    }
+
+    public void OnGlobalBroadcasterNotify(object? sender, BroadcastData broadcastData)
+    {
+        _currentData = broadcastData;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        BlazorSchoolGlobalBroadcasterService.OnMessageReceived -= OnGlobalBroadcasterNotify;
+    }
+}
