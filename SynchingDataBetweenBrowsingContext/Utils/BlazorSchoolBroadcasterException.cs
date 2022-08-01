@@ -2,7 +2,7 @@
 
 public class BlazorSchoolBroadcasterException : Exception
 {
-    public BlazorSchoolBroadcasterException(string message):base(message)
+    public BlazorSchoolBroadcasterException(string message) : base(message)
     {
 
     }

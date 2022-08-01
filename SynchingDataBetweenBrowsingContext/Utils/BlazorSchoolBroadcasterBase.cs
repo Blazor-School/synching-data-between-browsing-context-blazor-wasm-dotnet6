@@ -30,10 +30,7 @@ public abstract class BlazorSchoolBroadcasterBase<T> : IAsyncDisposable
     }
 
     [JSInvokable]
-    public void Notify(JsonElement jsonData)
-    {
-        OnMessageReceived?.Invoke(this, new(jsonData));
-    }
+    public void Notify(JsonElement jsonData) => OnMessageReceived?.Invoke(this, new(jsonData));
 
     protected async Task WaitForReference()
     {

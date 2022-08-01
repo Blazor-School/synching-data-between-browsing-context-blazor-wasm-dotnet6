@@ -12,8 +12,5 @@ public class BlazorSchoolGlobalBroadcaster : ComponentBase
     [Parameter]
     public RenderFragment<BroadcastData<ExampleClass>>? ChildContent { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.AddContent(0, ChildContent?.Invoke(CurrentData));
-    }
+    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.AddContent(0, ChildContent?.Invoke(CurrentData));
 }
