@@ -1,6 +1,6 @@
 ﻿@using SynchingDataBetweenBrowsingContext.Models
 @implements IDisposable
-@inject BlazorSchoolGlobalBroadcaster BlazorSchoolGlobalBroadcasterService
+@inject BlazorSchoolGlobalBroadcaster BlazorSchoolGlobalBroadcaster
 
 <CascadingValue TValue="BroadcastData<ExampleClass>" Value="_currentData" ChildContent="ChildContent" Name="BlazorSchoolCascadingGlobalBroadcastData" />
 
@@ -12,8 +12,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        BlazorSchoolGlobalBroadcasterService.OnMessageReceived += OnGlobalBroadcasterNotify;
-        await BlazorSchoolGlobalBroadcasterService.ListenChannelAsync();
+        BlazorSchoolGlobalBroadcaster.OnMessageReceived += OnGlobalBroadcasterNotify;
+        await BlazorSchoolGlobalBroadcaster.ListenChannelAsync();
     }
 
     public void OnGlobalBroadcasterNotify(object? sender, BroadcastData<ExampleClass> broadcastData)
@@ -24,6 +24,6 @@
 
     public void Dispose()
     {
-        BlazorSchoolGlobalBroadcasterService.OnMessageReceived -= OnGlobalBroadcasterNotify;
+        BlazorSchoolGlobalBroadcaster.OnMessageReceived -= OnGlobalBroadcasterNotify;
     }
 }
