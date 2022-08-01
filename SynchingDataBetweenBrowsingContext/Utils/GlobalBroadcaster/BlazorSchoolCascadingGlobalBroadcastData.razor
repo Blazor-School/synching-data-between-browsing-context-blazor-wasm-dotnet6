@@ -1,6 +1,6 @@
 ﻿@using SynchingDataBetweenBrowsingContext.Models
 @implements IDisposable
-@inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
+@inject BlazorSchoolGlobalBroadcaster BlazorSchoolGlobalBroadcasterService
 
 <CascadingValue TValue="BroadcastData<ExampleClass>" Value="_currentData" ChildContent="ChildContent" Name="BlazorSchoolCascadingGlobalBroadcastData" />
 

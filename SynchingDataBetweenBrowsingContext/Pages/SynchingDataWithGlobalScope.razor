@@ -2,7 +2,7 @@
 @using SynchingDataBetweenBrowsingContext.Models
 @using SynchingDataBetweenBrowsingContext.Utils
 @using SynchingDataBetweenBrowsingContext.Utils.GlobalBroadcaster
-@inject BlazorSchoolGlobalBroadcasterService BlazorSchoolGlobalBroadcasterService
+@inject BlazorSchoolGlobalBroadcaster BlazorSchoolGlobalBroadcaster
 @implements IDisposable
 
 <h3>SynchingDataWithGlobalScope</h3>
@@ -29,7 +29,7 @@
 
     protected override void OnInitialized()
     {
-        BlazorSchoolGlobalBroadcasterService.OnMessageReceived += OnGlobalBroadcasterUpdate;
+        BlazorSchoolGlobalBroadcaster.OnMessageReceived += OnGlobalBroadcasterUpdate;
     }
 
     private void OnGlobalBroadcasterUpdate(object? sender, BroadcastData<ExampleClass> broadcastData)
@@ -40,7 +40,7 @@
 
     private async Task SaveChangesAsync()
     {
-        await BlazorSchoolGlobalBroadcasterService.SendMessageAsync(FormModel);
+        await BlazorSchoolGlobalBroadcaster.SendMessageAsync(FormModel);
     }
 
     private async Task LoginAsync()
@@ -57,6 +57,6 @@
 
     public void Dispose()
     {
-        BlazorSchoolGlobalBroadcasterService.OnMessageReceived -= OnGlobalBroadcasterUpdate;
+        BlazorSchoolGlobalBroadcaster.OnMessageReceived -= OnGlobalBroadcasterUpdate;
     }
 }

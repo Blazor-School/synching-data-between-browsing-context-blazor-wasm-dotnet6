@@ -11,6 +11,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<BlazorSchoolComponentBroadcaster1>();
 builder.Services.AddScoped<BlazorSchoolComponentBroadcaster2>();
-builder.Services.AddScoped<BlazorSchoolGlobalBroadcasterService>();
+builder.Services.AddScoped<BlazorSchoolGlobalBroadcaster>();
 
 await builder.Build().RunAsync();

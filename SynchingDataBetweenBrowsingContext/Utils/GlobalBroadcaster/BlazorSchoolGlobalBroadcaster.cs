@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.JSInterop;
 using SynchingDataBetweenBrowsingContext.Models;
 
 namespace SynchingDataBetweenBrowsingContext.Utils.GlobalBroadcaster;
 
-public class BlazorSchoolGlobalBroadcaster : ComponentBase
+public class BlazorSchoolGlobalBroadcaster : BlazorSchoolBroadcasterBase<ExampleClass>
 {
-    [CascadingParameter(Name = "BlazorSchoolCascadingGlobalBroadcastData")]
-    public BroadcastData<ExampleClass> CurrentData { get; set; } = default!;
+    public override string ChannelName { get; } = "BlazorSchoolGlobalBroadcaster";
 
-    [Parameter]
-    public RenderFragment<BroadcastData<ExampleClass>>? ChildContent { get; set; }
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder) => builder.AddContent(0, ChildContent?.Invoke(CurrentData));
+    public BlazorSchoolGlobalBroadcaster(IJSRuntime jsRuntime) : base(jsRuntime)
+    {
+    }
 }
