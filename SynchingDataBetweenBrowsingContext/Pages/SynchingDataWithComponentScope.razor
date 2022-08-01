@@ -11,7 +11,7 @@
         Enter your name:
         <input class="form-control" type="text" @bind-value="ExampleString" />
     </label>
-    <button type="button" class="btn btn-primary" @onclick="SendDataBroadcaster1Async">Sync other tabs</button>
+    <button type="button" class="btn btn-primary" @onclick="SendDataBroadcaster1Async">Sync other browsing contexts</button>
 </form>
 
 <form>
@@ -42,6 +42,7 @@
     {
         await BlazorSchoolComponentBroadcaster1.SendMessageAsync(ExampleString);
     }
+
     private void OnBroadcaster1Notify(object? sender, BroadcastData<string> broadcastData)
     {
         ExampleString = broadcastData.GetData() ?? "";
